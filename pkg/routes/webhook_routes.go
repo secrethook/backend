@@ -6,8 +6,5 @@ import (
 )
 
 func WebhookRoutes(route fiber.Router) {
-	route.Post("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, POST request received")
-	})
 	route.Post("/new", controllers.CreateNewWebhook)
 }

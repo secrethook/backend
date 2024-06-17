@@ -16,7 +16,6 @@ import (
 
 func main() {
 	database.ConnectToMongodb()
-
 	config := configs.FiberConfig()
 
 	app := fiber.New(config)

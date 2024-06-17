@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/log"
 	"github.com/google/uuid"
 	"github.com/secrethook/backend/app/models"
 	"github.com/secrethook/backend/app/queries"
@@ -12,7 +11,6 @@ import (
 )
 
 func CreateNewWebhook(c *fiber.Ctx)  error {
-	log.Debug("test")
 	var webhook models.Webhook
 
 	if err := c.BodyParser(&webhook); err != nil {
@@ -25,7 +23,7 @@ func CreateNewWebhook(c *fiber.Ctx)  error {
 	if webhook.Encryption && webhook.PrivateKey == "" && webhook.PublicKey == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": true,
-			"msg": "You enabled encryption but did not provide the private and public keys.",
+			"msg": "You enabled encryption but did not provide private and public keys.",
 		})
 	}
 	
@@ -50,7 +48,7 @@ func CreateNewWebhook(c *fiber.Ctx)  error {
 	}
 
 
-	return c.JSON(fiber.Map{
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"message": "Webhook created successfully",
 		"webhook": webhook,
 	})

@@ -13,11 +13,11 @@ import (
 )
 
 func CreateNewWebhook(webhook *models.Webhook) error {
+	var err error
 	collection := database.WebhookDatabaseClient.Collection("webhook")
 
 	filter := bson.D{{Key: "id", Value: webhook.ID}}
 	var existingWebhook models.Webhook
-	var err error
 	for {
 		err = collection.FindOne(context.TODO(), filter).Decode(&existingWebhook)
 		if err == nil {
