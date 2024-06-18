@@ -10,7 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var WebhookDatabaseClient *mongo.Database
+var ChannelDatabaseClient *mongo.Database
 
 func ConnectToMongodb() {
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
@@ -18,13 +18,13 @@ func ConnectToMongodb() {
 	opts := options.Client().ApplyURI(mongodbConnectionURL).SetServerAPIOptions(serverAPI)
 	MongodbClient, err := mongo.Connect(context.TODO(), opts)
 	if err != nil {
-		log.Errorf("failed connected to MongoDB!", "err", err)
+		log.Errorf("failed connected to MongoDB!", "err=", err)
 	}
 	if err := MongodbClient.Database("admin").RunCommand(context.TODO(), bson.D{{Key: "ping", Value: 1}}).Err(); err != nil {
-		log.Errorf("failed connected to MongoDB!", "err", err)
+		log.Errorf("failed connected to MongoDB!", "err=", err)
 	}
 
-	WebhookDatabaseClient = MongodbClient.Database("webhook")
+	ChannelDatabaseClient = MongodbClient.Database("channel")
 
-	log.Info("You successfully connected to MongoDB!")
+	log.Infof("You successfully connected to MongoDB!")
 }

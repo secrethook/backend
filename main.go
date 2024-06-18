@@ -16,6 +16,9 @@ import (
 
 func main() {
 	database.ConnectToMongodb()
+	if err := utils.InitSnowflakeNode(); err != nil {
+		panic(err)
+	}
 	config := configs.FiberConfig()
 
 	app := fiber.New(config)
@@ -25,14 +28,18 @@ func main() {
 	})
 
 	middleware.FiberMiddleware(app)
-	
-	routes.WebhookRoutes(app.Group("/api/v1/webhook"))
-	
+
+	routes.ChannelRoutes(app.Group("/api/v1/channel"))
+
 	routes.NotFoundRoute(app)
-	
+
 	if os.Getenv("STAGE_STATUS") == "dev" {
 		utils.StartServer(app)
 	} else {
 		utils.StartServerWithGracefulShutdown(app)
 	}
+}
+
+func initServer() {
+
 }

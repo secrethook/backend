@@ -18,6 +18,7 @@ require (
 
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
+	github.com/bwmarrin/snowflake v0.3.0
 	github.com/go-playground/validator/v10 v10.22.0
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/google/uuid v1.5.0
